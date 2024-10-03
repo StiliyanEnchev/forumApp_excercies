@@ -8,3 +8,7 @@ class PostBaseForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = '__all__'
+
+        labels = {
+            'title': 'here is the title'
+        }
