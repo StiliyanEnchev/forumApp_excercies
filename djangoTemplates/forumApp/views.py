@@ -25,6 +25,19 @@ def dashboard(request):
     return render(request, 'dashboard.html', context)
 
 
+def edit_post(request, pk):
+    return HttpResponse()
+
+def details_page(request, pk):
+    post = Post.objects.get(pk=pk)
+
+    context = {
+        'post': post,
+    }
+
+    return render(request, 'posts/details-post.html', context)
+
+
 def add_post(request):
 
     form = PostCreateForm(request.POST or None)

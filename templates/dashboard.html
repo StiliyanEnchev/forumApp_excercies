@@ -5,6 +5,7 @@
     <div class="container">
         <div class="posts">
             {% for post in posts %}
+                <a href="{% url 'details-post' post.pk %}">
                 <div class="post"> 
                     <h2>{{ post.author|capfirst }}</h2>
                 
@@ -14,14 +15,20 @@
                         {{ post.content|truncatechars:10 }}
                     {% endif %}
                 
+                
+                
                 <div class="post-meta">
                     <span>Posted by {{ post.author|default:"anonymous" }}</span>
                 </div>
                 </div>
+                
+                </a>
             {% empty %}
                 <h1>there are no posts</h1>
             {% endfor %}
-        
+           
         </div>
     </div>
 {% endblock %}
+     
+
