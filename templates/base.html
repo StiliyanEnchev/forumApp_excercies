@@ -14,10 +14,9 @@
 <body>
  
     {% include "nav.html" %}
-    
-    <form>
-        {{ form }}
-    </form>
+    {% block content %}
+        <head>Hello World</head>
+    {% endblock %}
 
 </body>
     <script src='https://unpkg.com/akar-icons-fonts'></script>
