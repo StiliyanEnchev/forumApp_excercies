@@ -3,7 +3,7 @@ from datetime import datetime
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from djangoTemplates.forumApp.forms import PostCreateForm, PostDeleteForm
+from djangoTemplates.forumApp.forms import PostCreateForm, PostDeleteForm, SearchForm
 from djangoTemplates.forumApp.models import Post
 
 
@@ -17,9 +17,19 @@ def index(request):
 
     return render(request, "base.html", context)
 
+
 def dashboard(request):
+    posts = Post.objects.all()
+    form = SearchForm(request.GET)
+
+    if request.method == "GET":
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            posts = posts.filter(title__icontains=query)
+
     context = {
-        "posts": Post.objects.all(),
+        "posts": posts,
+        'form': form,
     }
 
     return render(request, 'dashboard.html', context)

@@ -3,6 +3,7 @@
 
 {% block content %}
     <div class="container">
+        {% include 'posts/searched-form.html' %}
         <div class="posts">
             {% for post in posts %}
                 <a href="{% url 'details-post' post.pk %}">
