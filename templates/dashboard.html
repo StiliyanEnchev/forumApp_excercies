@@ -2,11 +2,12 @@
 
 
 {% block content %}
-    
+
     <div class="container">
-    
+    {% include 'common/nav.html' %}
+
         {% include 'posts/searched-form.html' %}
-    
+
         <div class="posts">
             {% for post in posts %}
                 <a href="{% url 'details-post' post.pk %}">
@@ -27,14 +28,14 @@
                 </div>
                 
                 </a>
-                
+
             {% empty %}
                 <h1>there are no posts</h1>
             {% endfor %}
            
         </div>
     </div>
-    
+
 {% endblock %}
      
 
