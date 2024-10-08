@@ -1,9 +1,6 @@
-from datetime import datetime
-
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from djangoTemplates.forumApp.forms import PostCreateForm, PostDeleteForm, SearchForm
+from djangoTemplates.forumApp.forms import PostCreateForm, PostDeleteForm, SearchForm, PostEditForm
 from djangoTemplates.forumApp.models import Post
 
 
@@ -15,12 +12,12 @@ def index(request):
         'posts': '',
     }
 
-    return render(request, "base.html", context)
+    return render(request, "common/index.html", context)
 
 
 def dashboard(request):
-    posts = Post.objects.all()
     form = SearchForm(request.GET)
+    posts = Post.objects.all()
 
     if request.method == "GET":
         if form.is_valid():
@@ -36,7 +33,25 @@ def dashboard(request):
 
 
 def edit_post(request, pk):
-    return HttpResponse()
+    post = Post.objects.get(pk=pk)
+
+
+    if request.method == 'POST':
+        form = PostEditForm(request.POST, instance=post)
+
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+
+    else:
+        form = PostEditForm(instance=post)
+
+    context = {
+        'form': form,
+        'post': post,
+    }
+
+    return render(request, 'posts/edit-template.html', context)
 
 def details_page(request, pk):
     post = Post.objects.get(pk=pk)
