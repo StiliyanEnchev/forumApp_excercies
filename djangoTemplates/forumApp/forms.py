@@ -30,7 +30,7 @@ class PostBaseForm(forms.ModelForm):
 
         return author
 
-    def clean(self):            # if title is in contect it raise ValError else returns the clenaed data
+    def clean(self):            # if title is in content it raise ValError else returns the cleaned data
         cleaned_data = super().clean()
         title = cleaned_data.get('title')
         content = cleaned_data.get('content')
@@ -40,6 +40,16 @@ class PostBaseForm(forms.ModelForm):
 
         return cleaned_data
 
+
+    def save(self, commit=True): #overrites the save to save the post title capitalized in the DB
+        post = super().save(commit=False)
+
+        post.title = post.title.capitalize()
+
+        if commit:
+            post.save()
+
+        return post
 
 class PostCreateForm(PostBaseForm):
     pass
