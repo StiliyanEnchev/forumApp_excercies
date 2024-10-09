@@ -56,6 +56,9 @@ def edit_post(request, pk):
 def details_page(request, pk):
     post = Post.objects.get(pk=pk)
 
+    if request.method == 'POST':
+        pass
+
     context = {
         'post': post,
     }

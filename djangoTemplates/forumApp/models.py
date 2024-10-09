@@ -1,10 +1,7 @@
 from django.db import models
 from djangoTemplates.forumApp.Choices import LanguageChoice
 
-
 # Create your models here.
-
-
 
 
 class Post(models.Model):
@@ -17,3 +14,11 @@ class Post(models.Model):
     languages = models.CharField(choices=LanguageChoice.choices,
                                  default=LanguageChoice.OTHER,
                                  max_length=20)
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    author = models.CharField(max_length=30)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
