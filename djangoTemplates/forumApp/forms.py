@@ -22,13 +22,23 @@ class PostBaseForm(forms.ModelForm):
         }
 
 
-    def clean_author(self):
+    def clean_author(self):     # check if the author starts with upper case and raise ValError if not
         author = self.cleaned_data['author']
 
         if author[0] != author[0].upper():
             raise ValidationError('The author must start with upper case')
 
         return author
+
+    def clean(self):            # if title is in contect it raise ValError else returns the clenaed data
+        cleaned_data = super().clean()
+        title = cleaned_data.get('title')
+        content = cleaned_data.get('content')
+
+        if title and content and title in content:
+            raise ValidationError('The title cannot be in content')
+
+        return cleaned_data
 
 
 class PostCreateForm(PostBaseForm):
