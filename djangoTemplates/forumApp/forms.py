@@ -1,4 +1,3 @@
-from tokenize import Comment
 
 from django import forms
 from django.core.exceptions import ValidationError
@@ -6,7 +5,7 @@ from django.forms import formset_factory
 
 from djangoTemplates.forumApp.Choices import LanguageChoice
 from djangoTemplates.forumApp.mixins import DisableFieldsMixin
-from djangoTemplates.forumApp.models import Post
+from djangoTemplates.forumApp.models import Post, Comment
 
 
 class PostBaseForm(forms.ModelForm):
@@ -100,15 +99,15 @@ class CommentForm(forms.ModelForm):
             }
         }
 
-    def __init(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.fields['author'].widget.attr.update({
+        self.fields['author'].widget.attrs.update({
             'class': 'form-control',
             'placeholder': 'Your name',
         })
 
-        self.fields['content'].widget.attr.update({
+        self.fields['content'].widget.attrs.update({
             'class': 'form-control',
             'placeholder': 'Add message...',
         })
