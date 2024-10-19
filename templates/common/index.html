@@ -7,5 +7,6 @@
     <form>
     {{ my_form }}
     </form>
-    {{ static_time }}
+    {{ static_time|time:'s' }}
+    {{ dynamic_time|time:'s' }}
 {% endblock %}

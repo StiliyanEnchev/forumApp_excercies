@@ -2,7 +2,8 @@ from datetime import datetime
 
 from django.forms import modelform_factory
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, RedirectView
 
 from djangoTemplates.forumApp.forms import PostCreateForm, PostDeleteForm, SearchForm, PostEditForm
 from djangoTemplates.forumApp.models import Post
@@ -24,11 +25,23 @@ def index(request):
     return render(request, "common/index.html", context)
 
 
+class RedirectHomeView(RedirectView):
+    url = reverse_lazy('dashboard')
+
+
 class IndexView(TemplateView):
     template_name = 'common/index.html'
     extra_context = {
         'static_time': datetime.now(),
     }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['dynamic_time'] = datetime.now()
+
+        return context
+
 
     def get_template_names(self):
         if self.request.user.is_authenticated:

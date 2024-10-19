@@ -1,6 +1,7 @@
 from django.urls import path, include
 
-from djangoTemplates.forumApp.views import index, dashboard, add_post, delete_post, details_page, edit_post, IndexView
+from djangoTemplates.forumApp.views import index, dashboard, add_post, delete_post, details_page, edit_post, IndexView, \
+    RedirectHomeView
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
@@ -10,5 +11,6 @@ urlpatterns = [
         path('delete-post/', delete_post, name='delete-post'),
         path('details-post/', details_page, name='details-post'),
         path('edit-post/', edit_post, name='edit-post'),
-    ]))
+    ])),
+    path('redirect/', RedirectHomeView.as_view(), name='redirect-home'),
 ]
