@@ -3,7 +3,7 @@ from datetime import datetime
 from django.forms import modelform_factory
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, RedirectView, ListView, FormView, CreateView, UpdateView
+from django.views.generic import TemplateView, RedirectView, ListView, FormView, CreateView, UpdateView, DeleteView
 
 from djangoTemplates.forumApp.forms import PostCreateForm, PostDeleteForm, SearchForm, PostEditForm
 from djangoTemplates.forumApp.models import Post
@@ -147,17 +147,22 @@ class AddPostView(CreateView):
 #     return render(request, 'posts/add-post.html', context)
 
 
-def delete_post(request, pk: int):
-    post = Post.objects.get(pk=pk)
-    form = PostDeleteForm(instance=post)
+class DeletePostView(DeleteView):
+    model = Post
+    template_name = 'posts/delete-template.html'
+    success_url = reverse_lazy('dashboard')
 
-    if request.method == 'POST':
-        post.delete()
-        return redirect('dashboard')
-
-    context = {
-        'form': form,
-        'post': post,
-    }
-
-    return render(request, 'posts/delete-template.html', context)
+# def delete_post(request, pk: int):
+#     post = Post.objects.get(pk=pk)
+#     form = PostDeleteForm(instance=post)
+#
+#     if request.method == 'POST':
+#         post.delete()
+#         return redirect('dashboard')
+#
+#     context = {
+#         'form': form,
+#         'post': post,
+#     }
+#
+#     return render(request, 'posts/delete-template.html', context)
