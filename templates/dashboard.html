@@ -7,7 +7,7 @@
         {% include 'posts/searched-form.html' %}
 
         <div class="posts">
-            {% for post in posts %}
+            {% for post in object_list %}
                 <a href="{% url 'details-post' post.pk %}">
                 <div class="post"> 
                     <h2>{{ post.author|capfirst }}</h2>
