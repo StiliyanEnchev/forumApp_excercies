@@ -1,9 +1,9 @@
 from django.urls import path, include
 
-from djangoTemplates.forumApp.views import index, dashboard, add_post, delete_post, details_page, edit_post
+from djangoTemplates.forumApp.views import index, dashboard, add_post, delete_post, details_page, edit_post, IndexView
 
 urlpatterns = [
-    path('', index, name='index'),
+    path('', IndexView.as_view(), name='index'),
     path('dashboard/', dashboard, name='dashboard'),
     path('add-post/', add_post, name='add-post'),
     path('<int:pk>/', include([

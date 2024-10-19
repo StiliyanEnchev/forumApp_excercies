@@ -1,4 +1,8 @@
+from datetime import datetime
+
+from django.forms import modelform_factory
 from django.shortcuts import render, redirect
+from django.views.generic import TemplateView
 
 from djangoTemplates.forumApp.forms import PostCreateForm, PostDeleteForm, SearchForm, PostEditForm
 from djangoTemplates.forumApp.models import Post
@@ -6,13 +10,31 @@ from djangoTemplates.forumApp.models import Post
 
 # Create your views here.
 
+
 def index(request):
+    post_form = modelform_factory(
+        Post,
+        fields=('title', 'content', 'author', 'languages'),
+    )
 
     context = {
-        'posts': '',
+        'my_form': post_form,
     }
 
     return render(request, "common/index.html", context)
+
+
+class IndexView(TemplateView):
+    template_name = 'common/index.html'
+    extra_context = {
+        'static_time': datetime.now(),
+    }
+
+    def get_template_names(self):
+        if self.request.user.is_authenticated:
+            return ['dashboard.html']
+        else:
+            return ['common/index.html']
 
 
 def dashboard(request):
