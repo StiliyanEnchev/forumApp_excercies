@@ -43,6 +43,7 @@ class DashboardListView(ListView, FormView):
     form_class = SearchForm
     success_url = reverse_lazy('dashboard')
     model = Post
+    paginate_by = 2
 
     def get_queryset(self):
         queryset = self.model.objects.all()
