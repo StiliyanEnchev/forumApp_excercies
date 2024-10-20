@@ -3,9 +3,10 @@ from datetime import datetime
 from django.forms import modelform_factory
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, RedirectView, ListView, FormView, CreateView, UpdateView, DeleteView
+from django.views.generic import TemplateView, RedirectView, ListView, FormView, CreateView, UpdateView, DeleteView, \
+    DetailView
 
-from djangoTemplates.forumApp.forms import PostCreateForm, PostDeleteForm, SearchForm, PostEditForm
+from djangoTemplates.forumApp.forms import PostCreateForm, PostDeleteForm, SearchForm, PostEditForm, CommentFormSet
 from djangoTemplates.forumApp.models import Post
 
 
@@ -74,18 +75,28 @@ class EditPostView(UpdateView):
     success_url = reverse_lazy('dashboard')
 
 
-def details_page(request, pk):
-    post = Post.objects.get(pk=pk)
+class DetailsView(DetailView):
+    model = Post
+    template_name = 'posts/details-post.html'
 
-    if request.method == 'POST':
-        pass
+    def post(self, request, *args, **kwargs):
+        post = self.get_object()
+        formset = CommentFormSet(request.POST or None)
 
-    context = {
-        'post': post,
-    }
+        if request.method == "POST":
+            if formset.is_valid:
+                for form in formset:
+                    if form.cleaned_data:
+                        comment = form.save(commit=False)
+                        comment.post = post
+                        comment.save()
 
-    return render(request, 'posts/details-post.html', context)
+                return redirect('details-post', pk=post.id)
 
+        context = self.get_context_data()
+        context['formset'] = formset
+
+        return self.render_to_response(context)
 
 class AddPostView(CreateView):
     model = Post
