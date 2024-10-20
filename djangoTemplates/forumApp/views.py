@@ -3,9 +3,11 @@ from datetime import datetime
 from django.forms import modelform_factory
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView, RedirectView, ListView, FormView, CreateView, UpdateView, DeleteView, \
     DetailView
 
+from djangoTemplates.forumApp.decorators import measure_execution_time
 from djangoTemplates.forumApp.forms import PostCreateForm, PostDeleteForm, SearchForm, PostEditForm, CommentFormSet
 from djangoTemplates.forumApp.models import Post
 
@@ -16,6 +18,7 @@ class RedirectHomeView(RedirectView):
     url = reverse_lazy('dashboard')
 
 
+@method_decorator(measure_execution_time, name='dispatch')
 class IndexView(TemplateView):
     template_name = 'common/index.html'
     extra_context = {
