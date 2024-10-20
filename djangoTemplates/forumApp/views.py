@@ -9,6 +9,7 @@ from django.views.generic import TemplateView, RedirectView, ListView, FormView,
 
 from djangoTemplates.forumApp.decorators import measure_execution_time
 from djangoTemplates.forumApp.forms import PostCreateForm, PostDeleteForm, SearchForm, PostEditForm, CommentFormSet
+from djangoTemplates.forumApp.mixins import TimeRestrictedMixin
 from djangoTemplates.forumApp.models import Post
 
 
@@ -19,7 +20,7 @@ class RedirectHomeView(RedirectView):
 
 
 @method_decorator(measure_execution_time, name='dispatch')
-class IndexView(TemplateView):
+class IndexView(TimeRestrictedMixin, TemplateView):
     template_name = 'common/index.html'
     extra_context = {
         'static_time': datetime.now(),
