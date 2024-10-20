@@ -12,20 +12,6 @@ from djangoTemplates.forumApp.models import Post
 
 # Create your views here.
 
-
-def index(request):
-    post_form = modelform_factory(
-        Post,
-        fields=('title', 'content', 'author', 'languages'),
-    )
-
-    context = {
-        'my_form': post_form,
-    }
-
-    return render(request, "common/index.html", context)
-
-
 class RedirectHomeView(RedirectView):
     url = reverse_lazy('dashboard')
 
@@ -81,17 +67,16 @@ class DetailsView(DetailView):
 
     def post(self, request, *args, **kwargs):
         post = self.get_object()
-        formset = CommentFormSet(request.POST or None)
+        formset = CommentFormSet(request.POST)
 
-        if request.method == "POST":
-            if formset.is_valid:
-                for form in formset:
-                    if form.cleaned_data:
-                        comment = form.save(commit=False)
-                        comment.post = post
-                        comment.save()
+        if formset.is_valid:
+            for form in formset:
+                if form.cleaned_data:
+                    comment = form.save(commit=False)
+                    comment.post = post
+                    comment.save()
 
-                return redirect('details-post', pk=post.id)
+            return redirect('details-post', pk=post.id)
 
         context = self.get_context_data()
         context['formset'] = formset
