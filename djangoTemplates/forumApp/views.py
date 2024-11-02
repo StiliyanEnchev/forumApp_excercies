@@ -53,12 +53,23 @@ class DashboardListView(ListView, FormView):
     def get_queryset(self):
         queryset = self.model.objects.all()
 
+        if 'forumApp.can_approve_posts' not in self.request.user.get_group_permissions()\
+                or self.request.user.has_perm(''):
+            queryset = queryset.filter(approved=True)
+
         if 'query' in self.request.GET:
             query = self.request.GET.get('query')
             queryset = queryset.filter(title__icontains=query)
 
         return queryset
 
+
+def approve_post(request, pk):
+    post = Post.objects.get(pk=pk)
+    post.approved = True
+    post.save()
+
+    return redirect(request.META.get('HTTP_REFERER'))
 
 class EditPostView(UpdateView):
     model = Post

@@ -14,6 +14,14 @@ class Post(models.Model):
     languages = models.CharField(choices=LanguageChoice.choices,
                                  default=LanguageChoice.OTHER,
                                  max_length=20)
+    approved = models.BooleanField(
+        default=False
+    )
+
+    class Meta:
+        permissions = [
+            ('can_approve_posts', 'Can approve posts')
+        ]
 
 
 class Comment(models.Model):

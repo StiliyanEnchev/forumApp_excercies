@@ -1,7 +1,7 @@
 from django.urls import path, include
 
 from djangoTemplates.forumApp.views import IndexView, \
-    RedirectHomeView, DashboardListView, AddPostView, EditPostView, DeletePostView, DetailsView
+    RedirectHomeView, DashboardListView, AddPostView, EditPostView, DeletePostView, DetailsView, approve_post
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
@@ -11,6 +11,7 @@ urlpatterns = [
         path('delete-post/', DeletePostView.as_view(), name='delete-post'),
         path('details-post/', DetailsView.as_view(), name='details-post'),
         path('edit-post/', EditPostView.as_view(), name='edit-post'),
+        path('approved/', approve_post, name='approved')
     ])),
     path('redirect/', RedirectHomeView.as_view(), name='redirect-home'),
     path('accounts/', include('djangoTemplates.accounts.urls'))
