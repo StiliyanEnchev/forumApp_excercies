@@ -13,4 +13,5 @@ urlpatterns = [
         path('edit-post/', EditPostView.as_view(), name='edit-post'),
     ])),
     path('redirect/', RedirectHomeView.as_view(), name='redirect-home'),
+    path('accounts/', include('djangoTemplates.accounts.urls'))
 ]

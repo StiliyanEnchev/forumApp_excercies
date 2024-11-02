@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'djangoTemplates.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "templated_db",
+        "NAME": "forum_app_db",
         "USER": "postgres",
         "PASSWORD": "24866842",
         "HOST": "127.0.0.1",
@@ -132,3 +132,5 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
